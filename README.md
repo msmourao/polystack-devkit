@@ -56,4 +56,7 @@ Language: `?lang=en` / `?lang=pt`. Page: `?page=guide` / `?page=architecture`.
 
 ## Maintainers
 
-Pack from the private PolyStack monorepo, then sync this repo to the public fork with [`scripts/publish-fork.ps1`](./scripts/publish-fork.ps1). See [PUBLISH.md](./PUBLISH.md).
+- Build docs: [`scripts/build-docs.ps1`](./scripts/build-docs.ps1) (app in `docs-page/` → output `docs/`)
+- Sync public fork: [`scripts/publish-fork.ps1`](./scripts/publish-fork.ps1)
+
+See [PUBLISH.md](./PUBLISH.md).

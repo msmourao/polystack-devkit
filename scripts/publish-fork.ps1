@@ -5,7 +5,9 @@
 #   powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1 -SkipPush
 #   powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1 -ForkRoot "D:\path\to\devkit"
 #
-# The scripts/ folder is versioned here but excluded from the fork (fork .gitignore lists scripts/).
+# Maintainer-only (versioned here, excluded from the fork):
+#   scripts/   - publish/build helpers
+#   docs-page/ - React docs app source (build output goes to docs/)
 
 [CmdletBinding()]
 param(
@@ -22,6 +24,7 @@ if ([string]::IsNullOrWhiteSpace($ForkRoot)) {
     $ForkRoot = Join-Path (Split-Path $SourceRoot -Parent) "devkit"
 }
 $ForkRoot = [System.IO.Path]::GetFullPath($ForkRoot)
+$ForkHttps = "https://github.com/getpolystack/devkit.git"
 
 Write-Host "Source (original): $SourceRoot"
 Write-Host "Fork clone:        $ForkRoot"
@@ -50,10 +53,11 @@ finally {
     Pop-Location
 }
 
-# Mirror tracked content into the fork, excluding maintainer-only scripts/ and local junk.
+# Mirror tracked content into the fork, excluding maintainer-only trees and local junk.
 $excludeDirs = @(
     ".git",
     "scripts",
+    "docs-page",
     "bin",
     "obj",
     ".vs",
@@ -71,45 +75,62 @@ $robocopyArgs = @(
     "/XD"
 ) + $excludeDirs
 
-Write-Host "Syncing files (excluding scripts/ and build artifacts)..."
+Write-Host "Syncing files (excluding scripts/, docs-page/, and build artifacts)..."
 & robocopy @robocopyArgs | Out-Null
-# robocopy exit codes 0-7 are success; >=8 is failure
 if ($LASTEXITCODE -ge 8) {
     throw "robocopy failed with exit code $LASTEXITCODE"
 }
 $global:LASTEXITCODE = 0
 
-Push-Location $ForkRoot
-try {
-    # Ensure fork ignores scripts/ even if someone copies it in later.
-    $gitignorePath = Join-Path $ForkRoot ".gitignore"
-    $gitignoreText = if (Test-Path -LiteralPath $gitignorePath) {
-        Get-Content -LiteralPath $gitignorePath -Raw
+function Ensure-ForkIgnoreLine {
+    param(
+        [string]$GitIgnorePath,
+        [string]$RelativePath,
+        [string]$Comment
+    )
+
+    $text = if (Test-Path -LiteralPath $GitIgnorePath) {
+        Get-Content -LiteralPath $GitIgnorePath -Raw
     } else {
         ""
     }
-    if ($null -eq $gitignoreText) {
-        $gitignoreText = ""
+    if ($null -eq $text) { $text = "" }
+
+    $pattern = '(?m)^' + [regex]::Escape($RelativePath) + '\s*$'
+    if ($text -match $pattern) {
+        return $false
     }
-    if ($gitignoreText -notmatch '(?m)^scripts/') {
-        if ($gitignoreText.Length -gt 0 -and -not $gitignoreText.EndsWith("`n")) {
-            $gitignoreText += "`n"
-        }
-        $gitignoreText += "`n# Maintainer-only: lives in msmourao/polystack-devkit, not in this public fork`nscripts/`n"
-        Set-Content -LiteralPath $gitignorePath -Value $gitignoreText -Encoding utf8 -NoNewline
+
+    if ($text.Length -gt 0 -and -not $text.EndsWith("`n")) {
+        $text += "`n"
+    }
+    $text += "`n$Comment`n$RelativePath`n"
+    Set-Content -LiteralPath $GitIgnorePath -Value $text -Encoding utf8 -NoNewline
+    return $true
+}
+
+Push-Location $ForkRoot
+try {
+    $gitignorePath = Join-Path $ForkRoot ".gitignore"
+    if (Ensure-ForkIgnoreLine -GitIgnorePath $gitignorePath -RelativePath "scripts/" -Comment "# Maintainer-only: lives in msmourao/polystack-devkit, not in this public fork") {
         Write-Host "Added scripts/ to fork .gitignore"
     }
-
-    $scriptsPath = Join-Path $ForkRoot "scripts"
-    if (Test-Path -LiteralPath $scriptsPath) {
-        Remove-Item -LiteralPath $scriptsPath -Recurse -Force
-        Write-Host "Removed scripts/ from fork working tree"
+    if (Ensure-ForkIgnoreLine -GitIgnorePath $gitignorePath -RelativePath "docs-page/" -Comment "# Maintainer-only: docs React app source; public site is docs/") {
+        Write-Host "Added docs-page/ to fork .gitignore"
     }
 
-    $trackedScripts = git ls-files -- "scripts" 2>$null
-    if ($trackedScripts) {
-        git rm -r --cached --ignore-unmatch scripts | Out-Null
-        Write-Host "Untracked scripts/ from fork index"
+    foreach ($dirName in @("scripts", "docs-page")) {
+        $path = Join-Path $ForkRoot $dirName
+        if (Test-Path -LiteralPath $path) {
+            Remove-Item -LiteralPath $path -Recurse -Force
+            Write-Host "Removed $dirName/ from fork working tree"
+        }
+
+        $tracked = git ls-files -- $dirName 2>$null
+        if ($tracked) {
+            git rm -r --cached --ignore-unmatch $dirName | Out-Null
+            Write-Host "Untracked $dirName/ from fork index"
+        }
     }
 
     git add -A
@@ -129,8 +150,8 @@ try {
         return
     }
 
-    Write-Host "Pushing to origin..."
-    git push origin HEAD
+    Write-Host "Pushing to $ForkHttps ..."
+    git push $ForkHttps HEAD:main
     if ($LASTEXITCODE -ne 0) {
         throw "git push failed for getpolystack/devkit"
     }

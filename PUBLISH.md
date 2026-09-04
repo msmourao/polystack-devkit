@@ -1,5 +1,17 @@
 # How to publish (maintainers)
 
+## Docs site (build)
+
+The React app lives in `docs-page/` (original only). Build output goes to `docs/` (GitHub Pages).
+
+```powershell
+# Dev server
+powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1 -Run
+
+# Production build -> docs/
+powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1
+```
+
 ## Sync public fork (`getpolystack/devkit`)
 
 This repo (`msmourao/polystack-devkit`) is the source of truth. The public fork is [getpolystack/devkit](https://github.com/getpolystack/devkit) (GitHub Pages: [getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)).
@@ -10,11 +22,18 @@ With a local clone of the fork at `../devkit` (sibling folder):
 powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1
 ```
 
-The script copies public content into the fork, **excludes `scripts/`**, ensures the fork `.gitignore` ignores `scripts/`, commits, and pushes to `getpolystack/devkit`.
+The script copies public content into the fork, **excludes `scripts/` and `docs-page/`**, ensures the fork `.gitignore` ignores those folders, commits, and pushes to `getpolystack/devkit`.
 
 ```powershell
 # Preview commit only
 powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1 -SkipPush
+```
+
+Typical flow after editing docs content:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1
+powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1
 ```
 
 ## nuget.org Trusted Publishing field
