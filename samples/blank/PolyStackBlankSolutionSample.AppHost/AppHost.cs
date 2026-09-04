@@ -6,7 +6,7 @@ builder = builder.AsPolyStackDistributedApplicationBuilder();
 
 // -----------------------------------------------------------------------------
 // PolyStack DevKit (nuget.org: PolyStack.Aspire.Hosting.Demo / SchemaExtraction)
-// Docs: https://github.com/getpolystack/devkit/tree/main/docs
+// Docs: https://getpolystack.github.io/devkit
 //
 // 1) Wrap the Aspire builder with the DevKit facade (same method names as the
 //    private Multicloud kit — swap packages later without rewriting AppHost):

@@ -15,7 +15,7 @@ dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.
 
 ## Docs
 
-- Full bilingual guide + architecture: [docs/](https://github.com/getpolystack/devkit/tree/main/docs) (GitHub Pages) · [DevelopmentGuide.md](https://github.com/getpolystack/devkit/blob/main/DevelopmentGuide.md)
+- Full bilingual guide + architecture: [getpolystack.github.io/devkit](https://getpolystack.github.io/devkit) · [DevelopmentGuide.md](https://github.com/getpolystack/devkit/blob/main/DevelopmentGuide.md)
 - Blank Aspire sample: [samples/blank](https://github.com/getpolystack/devkit/tree/main/samples/blank)
 - Repository: [getpolystack/devkit](https://github.com/getpolystack/devkit)
 

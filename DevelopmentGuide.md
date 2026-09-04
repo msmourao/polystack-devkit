@@ -1,14 +1,14 @@
 ﻿# PolyStack DevKit — Development Guide
 
-> **HTML docs (GitHub Pages):** open [`docs/`](./docs/) in this repository.
+> **HTML docs (GitHub Pages):** [https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)
 
 Public, local-first guide for structuring PolyStack-shaped applications and exporting an architecture scheme.
 
 **Repository:** [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)  
 **Packages:** `0.1.0-preview.6` (obfuscated) on [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
-**Blank sample:** [`samples/blank`](./samples/blank)
+**Blank sample:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank)
 
-The bilingual site under **[`docs/`](./docs/)** includes:
+The bilingual site at **[https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)** includes:
 
 - Development Guide (`?page=guide`)
 - Architecture overview (`?page=architecture`)
@@ -75,4 +75,4 @@ poly.Build().Run();
 
 ---
 
-For the full bilingual guide and architecture overview, use the Pages site in [`docs/`](./docs/).
+For the full bilingual guide and architecture overview, use the Pages site: [https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit).

@@ -22,4 +22,4 @@ Until you register modules, the catalog may be empty — that is expected.
 
 ## Docs
 
-See the [Development Guide + Architecture](../../docs/) ([markdown summary](../../DevelopmentGuide.md)).
+See the [Development Guide + Architecture](https://getpolystack.github.io/devkit) ([markdown summary](https://github.com/getpolystack/devkit/blob/main/DevelopmentGuide.md)).

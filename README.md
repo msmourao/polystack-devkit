@@ -6,11 +6,13 @@ Use this repository to learn the DevKit surface, export `*.polystack-scheme.json
 
 | Artifact | Purpose |
 |----------|---------|
-| [`docs/`](./docs/) | **GitHub Pages** — Development Guide + Architecture (EN / PT-BR) |
-| [DevelopmentGuide.md](./DevelopmentGuide.md) | Short markdown summary + pointer to `docs/` |
+| [Docs site](https://getpolystack.github.io/devkit) | **GitHub Pages** — Development Guide + Architecture (EN / PT-BR) |
+| [DevelopmentGuide.md](./DevelopmentGuide.md) | Short markdown summary + pointer to the Pages site |
 | [PACKAGE.md](./PACKAGE.md) | Short README embedded in DevKit NuGet packages |
-| [samples/blank](./samples/blank) | Minimal Aspire AppHost restored from nuget.org |
+| [samples/blank](https://github.com/getpolystack/devkit/tree/main/samples/blank) | Minimal Aspire AppHost restored from nuget.org |
 | `packages/` | Optional staging folder for Trusted Publishing / release assets (gitignored binaries) |
+
+Public fork: [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)
 
 ## NuGet
 
@@ -39,7 +41,7 @@ Register modules on the AppHost facade when you are ready; until then the catalo
 
 ## Docs site
 
-Open [`docs/`](./docs/) (or GitHub Pages). Tabs:
+Open **[https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)**. Tabs:
 
 - **Development Guide** — install, compose, export scheme
 - **Architecture** — conceptual module layout and scheme lifecycle
@@ -54,4 +56,4 @@ Language: `?lang=en` / `?lang=pt`. Page: `?page=guide` / `?page=architecture`.
 
 ## Maintainers
 
-Pack and push from the private PolyStack monorepo (`scripts/publish-devkit.ps1`), or attach `.nupkg` files to a GitHub Release and use Trusted Publishing. See [PUBLISH.md](./PUBLISH.md).
+Pack from the private PolyStack monorepo, then sync this repo to the public fork with [`scripts/publish-fork.ps1`](./scripts/publish-fork.ps1). See [PUBLISH.md](./PUBLISH.md).

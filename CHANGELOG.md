@@ -4,7 +4,7 @@
 
 - Renamed DevKit shell projects to Aspire hosting convention (`Aspire.Hosting.PolyStackDemo*`)
 - Public NuGet package IDs: `PolyStack.Aspire.Hosting.Demo*` (`Aspire.Hosting.*` is reserved on nuget.org)
-- Docs site under `docs/` with Development Guide + Architecture (EN / PT)
+- Docs site under `docs/` with Development Guide + Architecture (EN / PT); public URL: https://getpolystack.github.io/devkit
 - Blank sample restored from nuget.org only
 
 ## 0.1.0-preview.5
