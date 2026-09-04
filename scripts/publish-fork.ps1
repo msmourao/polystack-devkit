@@ -1,4 +1,4 @@
-# Sync msmourao/polystack-devkit (this repo) → getpolystack/devkit (public fork).
+# Sync msmourao/polystack-devkit (this repo) to getpolystack/devkit (public fork).
 #
 # Usage (from repo root or anywhere):
 #   powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1
@@ -83,30 +83,26 @@ Push-Location $ForkRoot
 try {
     # Ensure fork ignores scripts/ even if someone copies it in later.
     $gitignorePath = Join-Path $ForkRoot ".gitignore"
-    $ignoreBlock = @"
-
-# Maintainer-only: lives in msmourao/polystack-devkit, not in this public fork
-scripts/
-"@
     $gitignoreText = if (Test-Path -LiteralPath $gitignorePath) {
         Get-Content -LiteralPath $gitignorePath -Raw
     } else {
         ""
     }
+    if ($null -eq $gitignoreText) {
+        $gitignoreText = ""
+    }
     if ($gitignoreText -notmatch '(?m)^scripts/') {
         if ($gitignoreText.Length -gt 0 -and -not $gitignoreText.EndsWith("`n")) {
             $gitignoreText += "`n"
         }
-        $gitignoreText += $ignoreBlock.TrimStart()
-        if (-not $gitignoreText.EndsWith("`n")) {
-            $gitignoreText += "`n"
-        }
+        $gitignoreText += "`n# Maintainer-only: lives in msmourao/polystack-devkit, not in this public fork`nscripts/`n"
         Set-Content -LiteralPath $gitignorePath -Value $gitignoreText -Encoding utf8 -NoNewline
         Write-Host "Added scripts/ to fork .gitignore"
     }
 
-    if (Test-Path -LiteralPath (Join-Path $ForkRoot "scripts")) {
-        Remove-Item -LiteralPath (Join-Path $ForkRoot "scripts") -Recurse -Force
+    $scriptsPath = Join-Path $ForkRoot "scripts"
+    if (Test-Path -LiteralPath $scriptsPath) {
+        Remove-Item -LiteralPath $scriptsPath -Recurse -Force
         Write-Host "Removed scripts/ from fork working tree"
     }
 
@@ -129,7 +125,7 @@ scripts/
     }
 
     if ($SkipPush) {
-        Write-Host "SkipPush set — commit created locally in $ForkRoot"
+        Write-Host "SkipPush set - commit created locally in $ForkRoot"
         return
     }
 
