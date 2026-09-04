@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Keep this sample on classic PackageReference Version=... (nuget.org only). -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

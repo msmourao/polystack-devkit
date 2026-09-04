@@ -1,0 +1,10 @@
+<!--
+  Isolate this sample from the PolyStack monorepo Directory.Build.props / central package management.
+  Consumers outside the monorepo do not need this file.
+-->
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+</Project>

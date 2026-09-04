@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PolyStackBlankSolutionSample.AppHost/PolyStackBlankSolutionSample.AppHost.csproj" />
+  <Project Path="PolyStackBlankSolutionSample.ServiceDefaults/PolyStackBlankSolutionSample.ServiceDefaults.csproj" />
+</Solution>

@@ -1,0 +1,21 @@
+# Built NuGet packages are staged here by scripts/publish-devkit.ps1; do not commit binaries.
+packages/*.nupkg
+packages/*.snupkg
+
+# Build / IDE / Aspire / DevKit generated output
+**/bin/
+**/obj/
+**/.vs/
+**/.aspire/
+**/.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# AppHost scheme/topology artifacts (regenerated on Build)
+**/.polystack/
+
+# OS
+.DS_Store
+Thumbs.db

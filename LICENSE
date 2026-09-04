@@ -1,0 +1,42 @@
+PolyStack DevKit License
+Copyright (c) PolyStack / PolyStack contributors. All rights reserved.
+
+SUMMARY
+  The PolyStack DevKit NuGet packages are free to download and use.
+  Source code is not provided with these packages.
+  The full PolyStack platform (orchestration, cloud adapters, codegen, CD)
+  is a separate product and is not covered by this license.
+
+1. GRANT OF USE
+  You may install and use the PolyStack DevKit packages from nuget.org
+  (or official PolyStack distributions) to build, test, and run your own
+  applications, including commercial applications, free of charge.
+
+2. NO SOURCE
+  These packages are distributed as binaries only. This license does not
+  grant you rights to obtain, copy, or redistribute PolyStack source code.
+
+3. REDISTRIBUTION OF PACKAGES
+  You may restore and cache the packages through normal NuGet / CI tooling.
+  You may not republish them under a different package identity or present
+  them as an official PolyStack / PolyStack distribution without permission.
+
+4. TRADEMARKS
+  "PolyStack", "PolyStack", and related names/logos are trademarks of their
+  owners. This license does not grant trademark rights beyond naming the
+  packages you consume.
+
+5. PLATFORM / COMMERCIAL PRODUCTS
+  Host.BuildTimeSelection, cloud adapters (AWS/Azure), Settings, Aspire
+  Multicloud Development Kit, ProjectGenerator, Deploy, and related platform
+  components are licensed separately. Using this DevKit does not grant a
+  license to those products.
+
+6. NO WARRANTY
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A
+  PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+  ARISING FROM USE OF THE SOFTWARE.
+
+For questions: https://github.com/getpolystack/polystack-devkit
