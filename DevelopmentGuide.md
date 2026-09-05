@@ -2,10 +2,10 @@
 
 > **HTML docs (GitHub Pages):** [https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)
 
-Public, local-first guide for structuring PolyStack-shaped applications and exporting an architecture scheme.
+Public, local-first guide for structuring PolyStack-shaped applications and using the Demo wizard and preparing architecture metadata for a future Settings import.
 
 **Repository:** [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)  
-**Packages:** `0.1.0-preview.6` (obfuscated) on [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
+**Packages:** `0.1.0-preview.7` on [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
 **Blank sample:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank)
 
 The bilingual site at **[https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)** includes:
@@ -24,12 +24,12 @@ The bilingual site at **[https://getpolystack.github.io/devkit](https://getpolys
 cd samples/blank
 dotnet restore
 dotnet run --project PolyStackBlankSolutionSample.AppHost
-# schema UI: http://localhost:18889/
+# Demo wizard / topology: http://localhost:18889/
 ```
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
 ```
 
 ### Compose modules
@@ -40,11 +40,11 @@ poly.AddPolyStackModule<MyPresentation, MyApplicationBuilder>("mymodule-api");
 poly.Build().Run();
 ```
 
-### Export scheme
+### Demo wizard + scheme on disk
 
 1. Build / F5 the DevKit AppHost.
 2. Open **http://localhost:18889/**.
-3. Generate and download `*.polystack-scheme.json` (metadata only — no secrets/binaries/live URLs).
+3. Configure the Demo wizard (clouds → … → topology). Scheme/topology stay under `.polystack/` (metadata only — no download UI).
 
 ---
 
@@ -56,7 +56,7 @@ poly.Build().Run();
 cd samples/blank
 dotnet restore
 dotnet run --project PolyStackBlankSolutionSample.AppHost
-# UI de scheme: http://localhost:18889/
+# Wizard Demo / topologia: http://localhost:18889/
 ```
 
 ### Compor módulos
@@ -67,11 +67,11 @@ poly.AddPolyStackModule<MyPresentation, MyApplicationBuilder>("mymodule-api");
 poly.Build().Run();
 ```
 
-### Exportar scheme
+### Wizard Demo + scheme em disco
 
 1. Build / F5 do AppHost DevKit.
 2. Abra **http://localhost:18889/**.
-3. Gere e baixe `*.polystack-scheme.json` (só metadados).
+3. Configure o wizard Demo (nuvens → … → topologia). Scheme/topology ficam em `.polystack/` (só metadados — sem download na UI).
 
 ---
 

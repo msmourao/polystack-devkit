@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-preview.7
+
+- Demo sidecar (`:18889`): wizard (clouds → frontends/storage/modules/databases/groups) ending on a simplified topology
+- Local draft `devkit-demo-draft.json` (`PolyStack_DEVKIT_DRAFT`); scheme/topology still written under `.polystack/` for future Settings import — **no** scheme download UI
+- Docs and blank sample aligned to the Demo wizard flow
+
 ## 0.1.0-preview.6
 
 - Renamed DevKit shell projects to Aspire hosting convention (`Aspire.Hosting.PolyStackDemo*`)

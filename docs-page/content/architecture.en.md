@@ -1,4 +1,4 @@
-# Architecture overview
+﻿# Architecture overview
 
 This page describes **how a PolyStack-shaped solution is organized** when you use the public DevKit. It is intentionally conceptual: enough to design modules and hand off a scheme, without exposing private platform internals.
 
@@ -10,9 +10,9 @@ PolyStack-style solutions are built as **composable modules** that can run local
 
 The DevKit focuses on three outcomes:
 
-1. **Clear module seams** — Presentation, Application, and contracts stay separable.
-2. **Composable runtime topology** — AppHost declares how modules and edges relate.
-3. **Portable architecture metadata** — a scheme file that captures structure, not secrets or binaries.
+1. **Clear module seams** â€” Presentation, Application, and contracts stay separable.
+2. **Composable runtime topology** â€” AppHost declares how modules and edges relate.
+3. **Portable architecture metadata** â€” a scheme file that captures structure, not secrets or binaries.
 
 What stays **out of scope** for the public DevKit (and is not documented here): Multicloud provisioning, private settings editors, inventory/cloud adapters, and operator CD workflows.
 
@@ -24,15 +24,15 @@ A typical DevKit solution looks like this:
 
 ```text
 AppHost (Aspire)
-  └─ registers modules + optional queues/topics/externals
-       └─ writes topology / scheme under .polystack/
-       └─ starts schema UI on :18889
+  â””â”€ registers modules + optional queues/topics/externals
+       â””â”€ writes topology / scheme under .polystack/
+       â””â”€ starts schema UI on :18889
 
 Api / Hosted service (per module or shared host)
-  └─ Presentation assembly
-  └─ Application assembly
-  └─ Contracts assembly
-  └─ optional Persistence / messaging adapters (local in DevKit)
+  â””â”€ Presentation assembly
+  â””â”€ Application assembly
+  â””â”€ Contracts assembly
+  â””â”€ optional Persistence / messaging adapters (local in DevKit)
 ```
 
 ### AppHost
@@ -81,10 +81,10 @@ Externals (frontends, containers, non-.NET services) join the topology as **name
 
 ```text
 Compose in AppHost
-    → Build
-        → .polystack/*.polystack-scheme.json (+ topology helpers)
-            → Schema UI (:18889) for review / download
-                → Future import into the private platform
+    â†’ Build
+        â†’ .polystack/*.polystack-scheme.json (+ topology helpers)
+            â†’ Schema UI (:18889) for review / download
+                â†’ Future import into the private platform
 ```
 
 The scheme answers questions like:
@@ -106,7 +106,7 @@ That separation lets architecture travel between teams and environments without 
 
 ## What the DevKit covers (reader checklist)
 
-Use this as a coverage map — not an implementation dump:
+Use this as a coverage map â€” not an implementation dump:
 
 - **Module composition** via Aspire AppHost facade
 - **Layered module templates** (Presentation / Application / Contracts)
@@ -120,9 +120,9 @@ The DevKit does **not** cover: cloud resource provisioning, private inventory hy
 
 ## Design principles worth keeping
 
-1. **Compose by name, configure later** — AppHost talks in logical module and resource names.
-2. **Metadata ≠ runtime secrets** — the scheme is safe to share; settings are not.
-3. **Same seams, richer host** — growing to Multicloud should swap host/AppHost packages, not rewrite module layers.
-4. **Local-first feedback** — run, inspect `:18889`, adjust structure before any cloud work.
+1. **Compose by name, configure later** â€” AppHost talks in logical module and resource names.
+2. **Metadata â‰  runtime secrets** â€” the scheme is safe to share; settings are not.
+3. **Same seams, richer host** â€” growing to Multicloud should swap host/AppHost packages, not rewrite module layers.
+4. **Local-first feedback** â€” run, inspect `:18889`, adjust structure before any cloud work.
 
 For hands-on steps, switch to the **Development Guide** tab.

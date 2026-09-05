@@ -3,7 +3,7 @@
 Guia público, local-first, para estruturar aplicações no formato PolyStack e exportar um scheme de arquitetura para uso posterior.
 
 **Repositório:** [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)  
-**Pacotes:** `0.1.0-preview.6` (ofuscados) no [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
+**Pacotes:** `0.1.0-preview.7` no [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
 **Sample blank:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank) (nuget.org)
 
 ---
@@ -15,7 +15,7 @@ O DevKit permite **compor módulos no formato PolyStack** — Presentation, Appl
 | Peça | Papel |
 |------|--------|
 | Fachada do AppHost | Mesma superfície de composição da plataforma privada (`AsPolyStackDistributedApplicationBuilder`, `AddPolyStackModule`, …) |
-| UI de extração de scheme (`:18889`) | Página somente leitura + download de `*.polystack-scheme.json` |
+| Sidecar Demo (`:18889`) | Wizard (nuvens → … → grupos) até a topologia simplificada + rascunho local |
 | Arquivo de scheme | **Metadados** de arquitetura — sem segredos, sem binários, sem BaseUrl/Host vivos |
 | Pacote de host local | Adaptadores in-process para execução local (broker, persistência, auth stub) |
 
@@ -35,15 +35,15 @@ dotnet run --project PolyStackBlankSolutionSample.AppHost
 Pacotes necessários (já referenciados no sample):
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
 ```
 
 Quando criar um projeto de API, referencie também:
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.6
-dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
+dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.7
 ```
 
 ## Compor módulos no AppHost

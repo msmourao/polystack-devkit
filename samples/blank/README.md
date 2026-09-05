@@ -1,8 +1,8 @@
-# Blank Aspire sample (nuget.org)
+﻿# Blank Aspire sample (nuget.org)
 
 Minimal PolyStack DevKit AppHost with **no ProjectReferences** to the private monorepo.
 
-## Packages (`0.1.0-preview.6`)
+## Packages (`0.1.0-preview.7`)
 
 - `PolyStack.Aspire.Hosting.Demo`
 - `PolyStack.Aspire.Hosting.Demo.SchemaExtraction`
@@ -18,7 +18,7 @@ dotnet run --project PolyStackBlankSolutionSample.AppHost
 
 Open **http://localhost:18889/** after the host starts.
 
-Until you register modules, the catalog may be empty — that is expected.
+Until you register modules, the catalog may be empty â€” that is expected.
 
 ## Docs
 

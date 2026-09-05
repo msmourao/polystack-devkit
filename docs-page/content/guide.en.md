@@ -3,7 +3,7 @@
 Public, local-first guide for structuring PolyStack-shaped applications and exporting an architecture scheme you can hand off later.
 
 **Repository:** [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)  
-**Packages:** `0.1.0-preview.6` (obfuscated) on [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
+**Packages:** `0.1.0-preview.7` on [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
 **Blank sample:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank) (nuget.org)
 
 ---
@@ -15,11 +15,11 @@ The DevKit lets you **compose modules the PolyStack way** — Presentation, Appl
 | Piece | Role |
 |-------|------|
 | AppHost facade | Same composition surface as the private platform (`AsPolyStackDistributedApplicationBuilder`, `AddPolyStackModule`, …) |
-| Schema extraction UI (`:18889`) | Read-only landing page + download of `*.polystack-scheme.json` |
-| Scheme file | Architecture **metadata only** — no secrets, no binaries, no live BaseUrl/Host |
+| Demo sidecar (`:18889`) | Wizard (clouds → … → groups) ending on a simplified topology + local draft |
+| Scheme file | Architecture **metadata only** on disk under `.polystack/` — no secrets/binaries/live URLs; **not** downloaded from the Demo UI |
 | Local host package | In-process adapters for local runs (message broker, persistence, auth stubs) |
 
-The scheme is intended for a **future import step**: operators fill clouds and environment settings later. The export does **not** ship your application binaries.
+The scheme is intended for a **future import step**: operators fill clouds and environment settings later. The Demo UI does **not** offer scheme download.
 
 > **NuGet note:** package IDs use the `PolyStack.Aspire.Hosting.Demo*` prefix because `Aspire.Hosting.*` is reserved on nuget.org. Project and assembly names still follow the Aspire hosting convention.
 
@@ -35,15 +35,15 @@ dotnet run --project PolyStackBlankSolutionSample.AppHost
 Required packages (already referenced by the sample):
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
 ```
 
 When you add an API host project, also reference:
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.6
-dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
+dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.7
 ```
 
 ## Compose modules in AppHost
@@ -64,11 +64,11 @@ Also supported patterns:
 - **Frontend** — `AddViteApp(...).AsExternalPolyStackModule(..., StackModuleSource.Frontend)`
 - **Hints / managed config** — `.WithHint(...)` and `.WithManagedConfig(...)` (captured into the scheme)
 
-## Export `*.polystack-scheme.json`
+## Demo wizard + scheme on disk
 
 1. Build / F5 the DevKit AppHost once.
 2. Open **http://localhost:18889/**.
-3. Optionally add feedback, then generate and download `*.polystack-scheme.json`.
+3. Walk the Demo wizard through topology. Scheme/topology files are written under `.polystack/` on Build (no download button in the Demo UI).
 
 The document includes `format: "polystack-scheme"`, a schema version, optional feedback, and a `security` block stating:
 
@@ -78,12 +78,12 @@ The document includes `format: "polystack-scheme"`, a schema version, optional f
 
 Files are typically written under `.polystack/` next to the AppHost (regenerated on Build).
 
-## If the UI shows “No resources loaded”
+## If the catalog looks empty
 
 The catalog is empty. Typical causes:
 
 1. The AppHost has not registered modules yet (the blank sample starts this way).
-2. The schema UI was started alone, without a generated scheme/topology.
+2. The Demo sidecar was started alone, without a generated scheme/topology.
 3. Build has not run, so `.polystack/*.polystack-scheme.json` was never written.
 
 Fix: register at least one module, run AppHost Build, reload `:18889`.

@@ -16,13 +16,13 @@ Public fork: [github.com/getpolystack/devkit](https://github.com/getpolystack/de
 
 ## NuGet
 
-Current train: **`0.1.0-preview.6`** (obfuscated binaries)
+Current train: **`0.1.0-preview.7`**
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.6
-dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.6
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.7
 ```
 
 > Package IDs use the `PolyStack.Aspire.Hosting.Demo*` prefix because `Aspire.Hosting.*` is reserved on nuget.org. Assemblies still follow the Aspire hosting naming convention.
@@ -48,11 +48,9 @@ Open **[https://getpolystack.github.io/devkit](https://getpolystack.github.io/de
 
 Language: `?lang=en` / `?lang=pt`. Page: `?page=guide` / `?page=architecture`.
 
-## Schema UI
+## Demo UI
 
-- Local UI after AppHost `Build()`: **http://localhost:18889/**
-- Scheme file: architecture **metadata only** (no secrets, binaries, or live URLs)
-- Language: browser `Accept-Language` / `navigator.language`, with `?lang=pt` / `?lang=en`
+After AppHost `Build()`, open **http://localhost:18889/** for the Demo wizard → simplified topology. Scheme/topology stay on disk under `.polystack/` (metadata only; no download in the Demo UI).
 
 ## Maintainers
 
