@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-preview.8
+
+- nuget.org train refreshed (**obfuscated** via Dotfuscator Community; a few assemblies still ship clear when CE cannot rewrite .NET 10 metadata)
+- Added `PolyStack.Infrastructure.ObjectStorage.InMemory` to the public DevKit set (required by `Demo.Host`)
+- Docs: agent/LLM entry (`LLM.md`) pointing at https://getpolystack.com/ai/ + FETCH vs READING protocol
+- Docs: topology surfaces triangle — Demo `:18889` hollow motor = Config Lab playground map; Settings `:18888` remains full lab (private)
+- Blank sample pinned to `0.1.0-preview.8` (nuget.org only)
+
 ## 0.1.0-preview.7
 
 - Demo sidecar (`:18889`): wizard (clouds → frontends/storage/modules/databases/groups) ending on a simplified topology
@@ -35,10 +43,6 @@
 
 ## 0.1.0-preview.1
 
-- Initial public DevKit preview packages
-
-## 0.1.0-preview.1
-
-- First public DevKit package set on nuget.org
+- Initial public DevKit preview packages on nuget.org
 - Local-first runtime + DevKit shell (no cloud adapters)
 - License: free binary use; source of the private platform is not published here

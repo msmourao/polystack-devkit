@@ -1,6 +1,6 @@
-﻿# DevKit package list (nuget.org)
+# DevKit package list (nuget.org)
 
-Current train: **`0.1.0-preview.7`**
+Current train: **`0.1.0-preview.8`**
 
 ## DevKit shell
 
@@ -51,6 +51,7 @@ Current train: **`0.1.0-preview.7`**
 | `PolyStack.Infrastructure.MessageBroker.Resources.Abstractions` |
 | `PolyStack.Infrastructure.ObjectStorage.Abstractions` |
 | `PolyStack.Infrastructure.ObjectStorage.Disabled` |
+| `PolyStack.Infrastructure.ObjectStorage.InMemory` |
 | `PolyStack.Infrastructure.Persistence.Abstractions` |
 | `PolyStack.Infrastructure.Persistence.Core` |
 | `PolyStack.Infrastructure.Persistence.DatabaseProvider.Abstractions` |

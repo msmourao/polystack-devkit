@@ -5,10 +5,10 @@ Local-first packages for structuring PolyStack-shaped applications. Architecture
 ## Install
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.8
 ```
 
 > NuGet package IDs use `PolyStack.Aspire.Hosting.Demo*` because `Aspire.Hosting.*` is reserved on nuget.org.
@@ -16,6 +16,7 @@ dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.
 ## Docs
 
 - Full bilingual guide + architecture: [getpolystack.github.io/devkit](https://getpolystack.github.io/devkit) · [DevelopmentGuide.md](https://github.com/getpolystack/devkit/blob/main/DevelopmentGuide.md)
+- LLM / agents: [LLM.md](https://github.com/getpolystack/devkit/blob/main/LLM.md) · https://getpolystack.com/ai/getstarted.txt
 - Blank Aspire sample: [samples/blank](https://github.com/getpolystack/devkit/tree/main/samples/blank)
 - Repository: [getpolystack/devkit](https://github.com/getpolystack/devkit)
 

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Aspire.AppHost.Sdk/13.5.3">
+<Project Sdk="Aspire.AppHost.Sdk/13.5.3">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="13.5.3" />
-    <!-- PolyStack DevKit â€” local ./packages (obfuscated) with nuget.org fallback for Aspire. -->
-    <PackageReference Include="PolyStack.Aspire.Hosting.Demo" Version="0.1.0-preview.7" />
-    <PackageReference Include="PolyStack.Aspire.Hosting.Demo.SchemaExtraction" Version="0.1.0-preview.7" />
+    <!-- PolyStack DevKit — nuget.org train 0.1.0-preview.8 (obfuscated). -->
+    <PackageReference Include="PolyStack.Aspire.Hosting.Demo" Version="0.1.0-preview.8" />
+    <PackageReference Include="PolyStack.Aspire.Hosting.Demo.SchemaExtraction" Version="0.1.0-preview.8" />
   </ItemGroup>
 
 </Project>

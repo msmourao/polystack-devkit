@@ -1,4 +1,4 @@
-﻿# polystack-devkit
+# polystack-devkit
 
 Public **PolyStack DevKit** documentation, package metadata, and a nuget.org blank Aspire sample.
 
@@ -8,21 +8,24 @@ Use this repository to learn the DevKit surface, export `*.polystack-scheme.json
 |----------|---------|
 | [Docs site](https://getpolystack.github.io/devkit) | **GitHub Pages** — Development Guide + Architecture (EN / PT-BR) |
 | [DevelopmentGuide.md](./DevelopmentGuide.md) | Short markdown summary + pointer to the Pages site |
+| [LLM.md](./LLM.md) | **AI / LLM instructions** — where agents start (`getpolystack.com/ai`), identity, FETCH vs READING |
 | [PACKAGE.md](./PACKAGE.md) | Short README embedded in DevKit NuGet packages |
-| [samples/blank](https://github.com/getpolystack/devkit/tree/main/samples/blank) | Minimal Aspire AppHost restored from nuget.org |
+| [PACKAGES.md](./PACKAGES.md) | Full public package list for this train |
+| [CHANGELOG.md](./CHANGELOG.md) | Train notes |
+| [samples/blank](./samples/blank) | Minimal Aspire AppHost restored from nuget.org |
 | `packages/` | Optional staging folder for Trusted Publishing / release assets (gitignored binaries) |
 
 Public fork: [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)
 
 ## NuGet
 
-Current train: **`0.1.0-preview.7`**
+Current train: **`0.1.0-preview.8`** (obfuscated binaries on nuget.org)
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.Abstractions --version 0.1.0-preview.8
 ```
 
 > Package IDs use the `PolyStack.Aspire.Hosting.Demo*` prefix because `Aspire.Hosting.*` is reserved on nuget.org. Assemblies still follow the Aspire hosting naming convention.
@@ -39,6 +42,12 @@ Then open the schema UI: [http://localhost:18889/](http://localhost:18889/)
 
 Register modules on the AppHost facade when you are ready; until then the catalog may show an empty state (expected for a blank host).
 
+## For AI assistants / LLMs
+
+Start at **[LLM.md](./LLM.md)** or live **https://getpolystack.com/ai/getstarted.txt** (also linked from https://getpolystack.com/llms.txt).
+
+Do not invent Multicloud CD steps from this repo alone. Config Lab on the marketing site is an illustrative playground; real delivery paths are DevKit (local) and the private Settings/Canary harness.
+
 ## Docs site
 
 Open **[https://getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)**. Tabs:
@@ -50,7 +59,7 @@ Language: `?lang=en` / `?lang=pt`. Page: `?page=guide` / `?page=architecture`.
 
 ## Demo UI
 
-After AppHost `Build()`, open **http://localhost:18889/** for the Demo wizard → simplified topology. Scheme/topology stay on disk under `.polystack/` (metadata only; no download in the Demo UI).
+After AppHost `Build()`, open **http://localhost:18889/** for the Demo wizard → simplified topology (hollow motor shared with the presentation Config Lab map). Scheme/topology stay on disk under `.polystack/` (metadata only; no download in the Demo UI).
 
 ## Maintainers
 

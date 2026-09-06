@@ -1,98 +1,201 @@
-﻿# PolyStack DevKit — Guia de Desenvolvimento
+# PolyStack DevKit — Guia de Desenvolvimento
 
-Guia público, local-first, para estruturar aplicações no formato PolyStack e exportar um scheme de arquitetura para uso posterior.
-
+Guia público, local-first, para construir aplicações com PolyStack, Aspire e módulos .NET.  
 **Repositório:** [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)  
-**Pacotes:** `0.1.0-preview.7` no [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo)  
-**Sample blank:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank) (nuget.org)
+**Pacotes:** `0.1.0-preview.8` no [nuget.org](https://www.nuget.org/packages/PolyStack.Aspire.Hosting.Demo) (`PolyStack.Aspire.Hosting.Demo*`)  
+**Sample blank:** [`samples/blank`](https://github.com/getpolystack/devkit/tree/main/samples/blank)  
+**LLM / agentes:** [LLM.md](https://github.com/getpolystack/devkit/blob/main/LLM.md) · https://getpolystack.com/ai/getstarted.txt
+
+Espelha a receita declare-first do DevelopmentGuide do monorepo. O DevKit permanece no Demo `:18889` e adaptadores locais; Multicloud / Canary ficam no monorepo privado.
 
 ---
 
-## O que é o DevKit
+## 1. Escolha o host
 
-O DevKit permite **compor módulos no formato PolyStack** — Presentation, Application, contratos, arestas de messaging e adaptadores locais — **sem** provisionamento Multicloud, editor privado de settings ou pipelines de CD.
-
-| Peça | Papel |
-|------|--------|
-| Fachada do AppHost | Mesma superfície de composição da plataforma privada (`AsPolyStackDistributedApplicationBuilder`, `AddPolyStackModule`, …) |
-| Sidecar Demo (`:18889`) | Wizard (nuvens → … → grupos) até a topologia simplificada + rascunho local |
-| Arquivo de scheme | **Metadados** de arquitetura — sem segredos, sem binários, sem BaseUrl/Host vivos |
-| Pacote de host local | Adaptadores in-process para execução local (broker, persistência, auth stub) |
-
-O scheme alimenta um **passo futuro de importação**: nuvens e settings de ambiente são preenchidos depois. O export **não** inclui binários da aplicação.
-
-> **Nota NuGet:** os IDs dos pacotes usam o prefixo `PolyStack.Aspire.Hosting.Demo*` porque `Aspire.Hosting.*` é reservado no nuget.org. Projetos e assemblies continuam no padrão de hosting do Aspire.
-
-## Início rápido (sample em branco)
+| | **DevKit (local-first)** | **Multicloud (plataforma)** |
+|--|--------------------------|-----------------------------|
+| Sidecar | Demo SchemaExtraction **:18889** — wizard → topologia (oco; sem UI de download do scheme) | Settings.App **:18888** — SoT editável + dry-run de CD |
+| Modo do AppHost | `PolyStackAppHostMode=DevKit` | `PolyStackAppHostMode=Multicloud` |
+| Persistência / broker | SQLite + InMemory (+ Auth.None típico) | SqlServer/Postgre + DynamicSelection + Aws/Azure |
+| Artefatos em disco | `.polystack/` scheme + topologia + rascunho (metadados; a UI Demo **não** exporta) | `polystack-settings.json` (+ topologia) |
+| Sample | Blank do DevKit (`samples/blank` no nuget.org / este repo) | Canary (harness Multicloud de referência no monorepo) |
 
 ```powershell
+# Sample blank do DevKit (este repo / nuget.org)
 cd samples/blank
 dotnet restore
 dotnet run --project PolyStackBlankSolutionSample.AppHost
-# abra http://localhost:18889/
+# Wizard / topologia Demo: http://localhost:18889/
 ```
 
-Pacotes necessários (já referenciados no sample):
+Pacotes necessários (já referenciados no sample blank) — trem **0.1.0-preview.8+**:
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.7
-dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo --version 0.1.0-preview.8
+dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.0-preview.8
 ```
 
 Quando criar um projeto de API, referencie também:
 
 ```powershell
-dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.7
-dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.7
+dotnet add package PolyStack.Aspire.Hosting.Demo.Host --version 0.1.0-preview.8
+dotnet add package PolyStack.Presentation.HostedService --version 0.1.0-preview.8
 ```
 
-## Compor módulos no AppHost
+> **Nota NuGet:** os IDs dos pacotes usam o prefixo `PolyStack.Aspire.Hosting.Demo*` porque `Aspire.Hosting.*` é reservado no nuget.org. Projetos e assemblies continuam no padrão de hosting do Aspire.
+
+A UI Demo **não** faz download do scheme. Os arquivos ainda podem ser gravados em `.polystack/` (scheme + topologia + rascunho) para tooling após o `Build()` do AppHost.
+
+---
+
+## 2. Componha o AppHost
 
 ```csharp
-var poly = builder.AsPolyStackDistributedApplicationBuilder();
+var inner = DistributedApplication.CreateBuilder(args);
+var builder = inner.AsPolyStackDistributedApplicationBuilder();
 
-poly.AddPolyStackModule<MyPresentation, MyApplicationBuilder>("mymodule-api");
+// Somente Multicloud — Settings :18888 (não usado no blank do DevKit)
+// builder.WithSettingsApp();
 
-poly.Build().Run();
+builder.AddPolyStackModule<MyPresentation, MyApplicationBuilder>("mymodule-api");
+
+builder.AddViteApp("my-web", "../web")
+    .AsExternalPolyStackModule(builder, "MyWeb", StackModuleSource.Frontend)
+    .WithHint(builder, "frontend", "frontend.StaticSite(cdn=false)::Low");
+
+builder.Build().Run();
 ```
 
-Também:
+Também disponíveis:
 
-- **Filas / tópicos** — `AddMessageQueue<TEvent>()`, `AddMessageTopic<TEvent>()`
-- **HTTP / Docker externo** — `AddDockerfile(...).AsExternalPolyStackModule(...)`
-- **Frontend** — `AddViteApp(...).AsExternalPolyStackModule(..., StackModuleSource.Frontend)`
-- **Hints / managed config** — `.WithHint(...)` e `.WithManagedConfig(...)` (entram no scheme)
+- Python / Docker → `AddDockerfile(...).WithHttpEndpoint(...).AsExternalPolyStackModule(...)`
+- Filas / tópicos → `AddMessageQueue<TEvent>()`, `AddMessageTopic<TEvent>()`
+- Hints / managed config → `WithHint`, `WithManagedConfig` (complementam `[Hints]` / atributos)
 
-## Exportar `*.polystack-scheme.json`
+---
 
-1. Faça Build / F5 do AppHost DevKit uma vez.
-2. Abra **http://localhost:18889/**.
-3. Opcionalmente preencha feedback e baixe `*.polystack-scheme.json`.
+## 3. Controllers (Presentation)
 
-O documento traz `format: "polystack-scheme"`, versão de schema, feedback opcional e um bloco `security` garantindo: sem segredos, sem binários, sem endpoints vivos (egress só com chaves lógicas). Em geral o arquivo fica em `.polystack/` (regenerado no Build).
+1. Marker: `IDynamicPresentation<TApplicationBuilder>`
+2. Controllers em `Controllers/` (superfície REST; Problem Details para erros)
+3. Application: `ApplicationBuilder` + handlers CQRS
+4. Contracts: DTOs `*Request` / `*Response`, eventos em `Events/`
+5. Ponte gRPC opcional: `{Module}GrpcService` em `Presentation/Grpc/` (Invoke → MVC)
 
-## Se a página mostrar “Nenhum recurso carregado”
+Protocolo inferido: **módulos PolyStack → gRPC**, **Python → HTTP**.
 
-O catálogo está vazio. Causas comuns:
+---
 
-1. O AppHost ainda não registrou módulos (o sample blank começa assim).
-2. A UI foi iniciada sozinha, sem topology/scheme gerados.
-3. O Build não rodou, então `.polystack/*.polystack-scheme.json` não existe.
+## 4. Filas (declare; não escolha o broker à mão)
 
-Correção: registre ao menos um módulo, rode o Build do AppHost, recarregue `:18889`.
+```csharp
+// AppHost — declare a fila lógica
+var queue = builder.AddMessageQueue<MyEventRequested>();
 
-## Forma de um módulo (checklist)
+builder.AddPolyStackModule<MyHandlerPresentation, MyHandlerApplicationBuilder>("handler-api")
+    .WithQueueEventSource(queue); // serverless: mapeamento SQS / Service Bus a partir dos settings
+```
 
-1. **Presentation** — marker + controllers
-2. **Application** — builder + handlers CQRS
-3. **Contracts** — DTOs e eventos
-4. **Ponte gRPC** (módulos PolyStack) — `{Module}GrpcService`
+- Contrato de mensagem em `*.Api.Contracts/Events/` (CloudEvents `type`)
+- Consumer: implemente `IMessageHandler<T>` (+ convenção de registro `IQueueConfig<T>`)
+- **Não** escolha SQS vs Service Bus no código da aplicação — settings + DynamicSelection decidem (o host local do DevKit usa adaptadores in-memory)
 
-Convenção: **módulos PolyStack falam gRPC**; alguns externos podem usar HTTP.
+Tópicos:
 
-## Evoluir além do DevKit
+```csharp
+builder.AddMessageTopic<MyDomainEvent>();
+```
 
-Quando for para a plataforma privada:
+---
+
+## 5. Publique mensagens
+
+```csharp
+await publisher.PublishAsync(new MyEventRequested { /* ... */ }, cancellationToken);
+```
+
+Use `IMessagePublisher.PublishAsync` / CloudEvents. Os nomes das filas vêm de convenções (`QueueNameConvention`, `IQueueConfig<T>`), não de um registro tipado FlowMessage.
+
+**Não reative** `FlowMessage` nem `IQueueMappingRegistry`.
+
+---
+
+## 6. Object storage
+
+- Subclasse `ObjectStorage("logical-name")` no seu módulo; discovery + overlays de settings ligam os alvos na nuvem
+- **Não** invente `AddObjectStorage(...)` no AppHost
+- Sample Multicloud: Canary `canary-assets` em settings `objectStorages` (monorepo)
+
+---
+
+## 7. Hubs, chamadas sync, frontend
+
+**Hubs (SignalR):**
+
+```csharp
+public sealed class CanaryModuleHubHandler : ModuleHubHandlerBase, IModuleHubHandler
+{
+    public static string Route => "/hubs/canary";
+}
+```
+
+Auto-registrados via declarações de hub → topologia. Transporte no browser: `websocket` (não gRPC).
+
+**Chamadas sync entre módulos:**
+
+```csharp
+public sealed class MySynchronousModuleCallRegistrar : SynchronousModuleCallRegistrarBase
+{
+    protected override void RegisterSynchronousModuleCalls(IServiceCollection services)
+    {
+        Add<OtherModulePresentation>(services);
+        AddExternal(services, "InstagramScanner"); // Python HTTP
+    }
+}
+```
+
+O Aspire injeta `PolyStack__Grpc__{ClientName}` (ou Http para Python).
+
+**Frontend (Vite):**
+
+```csharp
+builder.AddViteApp("canary-web", "../web")
+    .AsExternalPolyStackModule(builder, "CanaryWeb", StackModuleSource.Frontend);
+```
+
+Exemplo de `moduleCalls` nos settings (Multicloud):
+
+```json
+{ "from": "CanaryWeb", "to": "Canary" }
+```
+
+Config de runtime: o CD grava `dist/config.json`; no F5 local pode usar `GET /api/settings/frontends/{key}/runtime-config`.
+
+---
+
+## 8. O que vai para disco vs settings vs inject em runtime
+
+| Artefato | Papel |
+|----------|-------|
+| `polystack-settings.json` | SoT Multicloud: clouds, hosting, DBs, moduleCalls, frontends, objectStorages, flags de CD |
+| Topologia / scheme em `.polystack/` | Metadados de catálogo para Aspire / Demo / lab Settings — **não** baixados pela UI Demo |
+| Env `POLYSTACK_*` / `PolyStack__Grpc__*` | Inject em runtime via Aspire / stamps de CD |
+| Rascunho Demo (`devkit-demo-draft.json`) | Estado oco do wizard apenas — não é SoT de produção |
+
+Settings (:18888) é o control plane Multicloud. Demo (:18889) é onboarding / ilustração de topologia.
+
+Documentos de scheme podem incluir `format: "polystack-scheme"`, versão de schema, feedback opcional e um bloco `security` (sem segredos / binários / endpoints vivos — egress só com chaves lógicas).
+
+---
+
+## 9. Samples
+
+| Sample | Propósito |
+|--------|-----------|
+| Blank do DevKit (`samples/blank`) | AppHost consumidor + Demo :18889 sem ProjectRefs do monorepo (pacotes nuget.org) |
+| Canary (monorepo) | Harness Multicloud de referência: dual DB, filas, hub, FE, object storage, Peer cross-module |
+
+Quando for além do DevKit:
 
 ```text
 Demo.Host (adaptadores locais)  → seleção de host da plataforma
@@ -100,6 +203,48 @@ Fachada AppHost Demo            → kit Aspire Multicloud
 *.polystack-scheme.json         → ferramenta de importação (operador preenche nuvens / settings)
 ```
 
+---
+
+## 9b. Receitas Canary (Multicloud monorepo)
+
+Padrões declare-first do harness ouro (monorepo privado `samples/canary`):
+
+| Receita | Declarar |
+|---------|----------|
+| Filas Canary↔Peer | `IQueueConfig<CanaryPeerNotified>` + Peer `IMessageHandler<>` |
+| Topic | settings `topics.canary-domain-events` |
+| Hub | `Route => "/hubs/canary"` em `ModuleHubHandlerBase` |
+| Object storage | `ObjectStorage("canary-assets")` + settings `objectStorages` |
+| API gateway (harness) | `apiGateways.clouds.Azure.enabled = false` |
+| Egress | `egressCalls[]` (allow-list de host; sem HttpClient cru) |
+| Sidecars | Settings **:18888** (lab full) · Demo topologia hollow **:18889** · playground Config Lab usa o **mesmo** motor hollow |
+
+Motor hollow de topologia partilhado: monorepo `PolyStack.TopologyLab.Web` (Demo; Settings mantém o lab completo). No site de apresentação, o Config Lab carrega `/shared/topology-lab/`.
+
+---
+
+## 10. Solução de problemas
+
+| Sintoma | Correção |
+|---------|----------|
+| Porta errada / UI Settings vazia | Multicloud → **:18888**; wizard Demo → **:18889** |
+| Catálogo Demo vazio | Garanta que o `Build()` do AppHost rodou com módulos registrados; verifique `.polystack/` |
+| Esperava download do scheme em :18889 | Removido da UI Demo — os arquivos ainda são gravados em `.polystack/` para tooling |
+| Catálogo do sample blank vazio | Registre ao menos um módulo (o blank começa vazio), rode o Build do AppHost, recarregue `:18889` |
+| Restore do Demo.Host sem ObjectStorage.InMemory | Use o trem **0.1.0-preview.8+** (pacote incluído no set público) |
+
+---
+
+## 11. LLM / assistentes de IA
+
+| Recurso | Uso |
+|---------|-----|
+| https://getpolystack.com/llms.txt | Ponteiro do site |
+| https://getpolystack.com/ai/getstarted.txt | Entrada para agentes (`#IDENTITY` / `#PREVIEW`) |
+| [LLM.md](https://github.com/getpolystack/devkit/blob/main/LLM.md) | Notas DevKit (FETCH vs READING, PackageIds) |
+
+**Não** invente CD Multicloud só a partir da documentação DevKit. O Config Lab em getpolystack.com é playground ilustrativo (dados mock), não o caminho de entrega.
+
 ## Idioma
 
-Este guia e a UI de scheme seguem o idioma do navegador (`?lang=pt` / `?lang=en`).
+Este guia e a UI Demo seguem o idioma do navegador (`?lang=pt` / `?lang=en`).

@@ -1,6 +1,6 @@
 # Visão da arquitetura
 
-Esta página descreve **como uma solução no formato PolyStack se organiza** com o DevKit público. O texto é conceitual de propósito: o suficiente para desenhar módulos e entregar um scheme, sem expor internos da plataforma privada.
+Esta página descreve **como uma solução no formato PolyStack se organiza** com o DevKit público. O texto é conceitual de propósito: o suficiente para desenhar módulos e entregar metadados de arquitetura, sem expor internos da plataforma privada.
 
 ---
 
@@ -8,11 +8,19 @@ Esta página descreve **como uma solução no formato PolyStack se organiza** co
 
 Soluções no estilo PolyStack são feitas de **módulos componíveis** que rodam primeiro em local e depois mapeiam para uma plataforma completa (nuvens, settings, CD) **sem reescrever as fronteiras** dos módulos.
 
+**Maturidade hoje:**
+
+| Superfície | Papel |
+|------------|-------|
+| **DevKit público** | Compose Aspire local + wizard Demo até uma topologia simplificada; scheme/topology podem ser gravados em `.polystack/` para tooling |
+| **Config Lab (apresentação)** | Playground ilustrativo no browser — mesmo motor hollow de topologia do Demo, inventário mock (não é entrega Multicloud) |
+| **Settings Multicloud privado** (`:18888` quando disponível) | Fonte da verdade operacional (settings, nuvens, grupos, CD) — não faz parte do DevKit público |
+
 O DevKit mira três resultados:
 
 1. **Costuras claras de módulo** — Presentation, Application e contracts permanecem separáveis.
 2. **Topologia de runtime componível** — o AppHost declara como módulos e arestas se relacionam.
-3. **Metadados de arquitetura portáveis** — um arquivo de scheme que captura estrutura, não segredos nem binários.
+3. **Metadados de arquitetura portáveis** — arquivos de scheme/topology em `.polystack/` capturam estrutura, não segredos nem binários. A Demo UI **não tem download**.
 
 Fica **fora do escopo** do DevKit público (e não é documentado aqui): provisionamento Multicloud, editores privados de settings, adaptadores de inventário/nuvem e fluxos de CD do operador.
 
@@ -25,8 +33,8 @@ Uma solution DevKit típica se parece com isto:
 ```text
 AppHost (Aspire)
   └─ registra módulos + filas/tópicos/externos opcionais
-       └─ grava topology / scheme em .polystack/
-       └─ sobe a UI de scheme em :18889
+       └─ pode gravar topology / scheme em .polystack/
+       └─ sobe a UI do wizard Demo em :18889
 
 Api / Hosted service (por módulo ou host compartilhado)
   └─ assembly de Presentation
@@ -44,7 +52,7 @@ O AppHost é a **raiz de composição**. Pela fachada do DevKit você declara:
 - filas e tópicos
 - processos externos (Docker, frontends, módulos HTTP/Python)
 
-O Build pela fachada materializa metadados locais e anexa a UI de extração de scheme.
+O Build pela fachada materializa metadados locais e anexa a UI do wizard Demo.
 
 ### Camadas de um módulo
 
@@ -77,14 +85,14 @@ Externos (frontends, containers, serviços não-.NET) entram na topologia como *
 
 ---
 
-## Ciclo de vida do export de scheme
+## Ciclo wizard → topologia
 
 ```text
 Compor no AppHost
     → Build
-        → .polystack/*.polystack-scheme.json (+ helpers de topology)
-            → UI de scheme (:18889) para revisão / download
-                → Importação futura na plataforma privada
+        → .polystack/*.polystack-scheme.json (+ helpers de topology, quando gravados)
+            → UI Demo (:18889) wizard → topologia simplificada (sem download)
+                → Importação futura na plataforma privada (Settings como SoT)
 ```
 
 O scheme responde perguntas como:
@@ -111,18 +119,18 @@ Use isto como mapa de cobertura — não como dump de implementação:
 - **Composição de módulos** via fachada Aspire AppHost
 - **Templates em camadas** (Presentation / Application / Contracts)
 - **Adaptadores locais** para o dia a dia de desenvolvimento
-- **Export de scheme de arquitetura** para importação futura
+- **Wizard Demo → topologia** e, opcionalmente, arquivos de scheme/topology em `.polystack/` para tooling futuro
 - **Pacote opcional de testes estruturais** (`PolyStack.Architecture.Testing`) para guardar convenções a partir de um projeto de testes *na sua* solution
 
-O DevKit **não** cobre: provisionamento de recursos em nuvem, hidratação privada de inventário, providers de auth de produção ou geração de CD. Isso pertence à plataforma privada depois da importação do scheme.
+O DevKit **não** cobre: provisionamento de recursos em nuvem, hidratação privada de inventário, providers de auth de produção ou geração de CD. Isso pertence à plataforma privada depois da importação dos metadados de arquitetura.
 
 ---
 
 ## Princípios que valem manter
 
 1. **Componha por nome, configure depois** — o AppHost fala em nomes lógicos de módulo e recurso.
-2. **Metadado ≠ segredo de runtime** — o scheme pode ser compartilhado; settings não.
+2. **Metadado ≠ segredo de runtime** — scheme/topology em `.polystack/` pode ser compartilhado; Settings não.
 3. **Mesmas costuras, host mais rico** — evoluir para Multicloud deve trocar pacotes de host/AppHost, não reescrever as camadas do módulo.
-4. **Feedback local primeiro** — rode, inspecione `:18889`, ajuste a estrutura antes de qualquer trabalho em nuvem.
+4. **Feedback local primeiro** — rode, percorra o wizard em `:18889` até a topologia, ajuste a estrutura antes de qualquer trabalho em nuvem.
 
 Para o passo a passo, use a aba **Guia de Desenvolvimento**.

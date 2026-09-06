@@ -1,6 +1,6 @@
 ﻿# Architecture overview
 
-This page describes **how a PolyStack-shaped solution is organized** when you use the public DevKit. It is intentionally conceptual: enough to design modules and hand off a scheme, without exposing private platform internals.
+This page describes **how a PolyStack-shaped solution is organized** when you use the public DevKit. It is intentionally conceptual: enough to design modules and hand off architecture metadata, without exposing private platform internals.
 
 ---
 
@@ -8,11 +8,19 @@ This page describes **how a PolyStack-shaped solution is organized** when you us
 
 PolyStack-style solutions are built as **composable modules** that can run locally first and later map onto a fuller platform (clouds, settings, CD) without rewriting the module boundaries.
 
+**Maturity today:**
+
+| Surface | Role |
+|---------|------|
+| **Public DevKit** | Local Aspire compose + Demo wizard ending on a simplified topology; scheme/topology may be written under `.polystack/` for tooling |
+| **Presentation Config Lab** | Illustrative browser playground — same hollow topology motor as Demo, mock inventory (not Multicloud delivery) |
+| **Private Multicloud Settings** (`:18888` when available) | Source of truth for operational settings, clouds, groups, and CD — not part of the public DevKit |
+
 The DevKit focuses on three outcomes:
 
-1. **Clear module seams** â€” Presentation, Application, and contracts stay separable.
-2. **Composable runtime topology** â€” AppHost declares how modules and edges relate.
-3. **Portable architecture metadata** â€” a scheme file that captures structure, not secrets or binaries.
+1. **Clear module seams** — Presentation, Application, and contracts stay separable.
+2. **Composable runtime topology** — AppHost declares how modules and edges relate.
+3. **Portable architecture metadata** — scheme/topology files under `.polystack/` capture structure, not secrets or binaries. The Demo UI has **no download**.
 
 What stays **out of scope** for the public DevKit (and is not documented here): Multicloud provisioning, private settings editors, inventory/cloud adapters, and operator CD workflows.
 
@@ -24,15 +32,15 @@ A typical DevKit solution looks like this:
 
 ```text
 AppHost (Aspire)
-  â””â”€ registers modules + optional queues/topics/externals
-       â””â”€ writes topology / scheme under .polystack/
-       â””â”€ starts schema UI on :18889
+  └─ registers modules + optional queues/topics/externals
+       └─ may write topology / scheme under .polystack/
+       └─ starts Demo wizard UI on :18889
 
 Api / Hosted service (per module or shared host)
-  â””â”€ Presentation assembly
-  â””â”€ Application assembly
-  â””â”€ Contracts assembly
-  â””â”€ optional Persistence / messaging adapters (local in DevKit)
+  └─ Presentation assembly
+  └─ Application assembly
+  └─ Contracts assembly
+  └─ optional Persistence / messaging adapters (local in DevKit)
 ```
 
 ### AppHost
@@ -44,7 +52,7 @@ The AppHost is the **composition root**. Through the DevKit facade you declare:
 - message queues and topics
 - external processes (Docker, frontend apps, HTTP/Python-style modules)
 
-Building through the facade materializes local metadata and attaches the schema extraction UI.
+Building through the facade materializes local metadata and attaches the Demo wizard UI.
 
 ### Module layers
 
@@ -77,14 +85,14 @@ Externals (frontends, containers, non-.NET services) join the topology as **name
 
 ---
 
-## Scheme export lifecycle
+## Wizard → topology lifecycle
 
 ```text
 Compose in AppHost
-    â†’ Build
-        â†’ .polystack/*.polystack-scheme.json (+ topology helpers)
-            â†’ Schema UI (:18889) for review / download
-                â†’ Future import into the private platform
+    → Build
+        → .polystack/*.polystack-scheme.json (+ topology helpers, when written)
+            → Demo UI (:18889) wizard → simplified topology (no download)
+                → Future import into the private platform (Settings SoT)
 ```
 
 The scheme answers questions like:
@@ -106,23 +114,23 @@ That separation lets architecture travel between teams and environments without 
 
 ## What the DevKit covers (reader checklist)
 
-Use this as a coverage map â€” not an implementation dump:
+Use this as a coverage map — not an implementation dump:
 
 - **Module composition** via Aspire AppHost facade
 - **Layered module templates** (Presentation / Application / Contracts)
 - **Local execution adapters** for day-to-day development
-- **Architecture scheme export** for later platform import
+- **Demo wizard → topology** plus optional scheme/topology files under `.polystack/` for later tooling
 - **Optional structural testing package** (`PolyStack.Architecture.Testing`) to guard conventions from a test project in *your* solution
 
-The DevKit does **not** cover: cloud resource provisioning, private inventory hydration, production auth providers, or CD generation. Those belong to the private platform after you import a scheme.
+The DevKit does **not** cover: cloud resource provisioning, private inventory hydration, production auth providers, or CD generation. Those belong to the private platform after you import architecture metadata.
 
 ---
 
 ## Design principles worth keeping
 
-1. **Compose by name, configure later** â€” AppHost talks in logical module and resource names.
-2. **Metadata â‰  runtime secrets** â€” the scheme is safe to share; settings are not.
-3. **Same seams, richer host** â€” growing to Multicloud should swap host/AppHost packages, not rewrite module layers.
-4. **Local-first feedback** â€” run, inspect `:18889`, adjust structure before any cloud work.
+1. **Compose by name, configure later** — AppHost talks in logical module and resource names.
+2. **Metadata ≠ runtime secrets** — scheme/topology under `.polystack/` is safe to share; Settings are not.
+3. **Same seams, richer host** — growing to Multicloud should swap host/AppHost packages, not rewrite module layers.
+4. **Local-first feedback** — run, walk the `:18889` wizard to topology, adjust structure before any cloud work.
 
 For hands-on steps, switch to the **Development Guide** tab.
