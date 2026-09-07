@@ -12,17 +12,19 @@ powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1 -Run
 powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1
 ```
 
-## Sync public fork (`getpolystack/devkit`)
+## Sync public brand (`getpolystack/devkit`)
 
-This repo (`msmourao/polystack-devkit`) is the source of truth. The public fork is [getpolystack/devkit](https://github.com/getpolystack/devkit) (GitHub Pages: [getpolystack.github.io/devkit](https://getpolystack.github.io/devkit)).
+This repo (`msmourao/polystack-devkit`) is the **maintainer source of truth**. The brand public repo under **Organization** `getpolystack` is [getpolystack/devkit](https://github.com/getpolystack/devkit) (short name — org already says PolyStack). GitHub Pages: [getpolystack.github.io/devkit](https://getpolystack.github.io/devkit).
 
-With a local clone of the fork at `../devkit` (sibling folder):
+Both remotes remain public by design. Former brand user login (after conversion to org) is **`getpolystack-user`** (org admin). See framework `docs/DEVOPS_GITHUB.md`.
+
+With a local clone of the brand repo at `../devkit` (sibling folder):
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1
 ```
 
-The script copies public content into the fork, **excludes `scripts/` and `docs-page/`**, ensures the fork `.gitignore` ignores those folders, commits, and pushes to `getpolystack/devkit`.
+The script copies public content into the brand clone, **excludes `scripts/` and `docs-page/`**, ensures the fork `.gitignore` ignores those folders, commits, and pushes to `getpolystack/devkit`.
 
 ```powershell
 # Preview commit only
@@ -36,6 +38,7 @@ powershell -ExecutionPolicy Bypass -File scripts/build-docs.ps1
 powershell -ExecutionPolicy Bypass -File scripts/publish-fork.ps1
 ```
 
+If brand Issues are off: sign in as **`getpolystack-user`** → repo Settings → Features → Issues.
 ## nuget.org Trusted Publishing field
 
 That form is **not** for the software license. Fill:

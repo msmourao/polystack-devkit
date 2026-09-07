@@ -15,15 +15,17 @@ Use this repository to learn the DevKit surface, export `*.polystack-scheme.json
 | [samples/blank](./samples/blank) | Minimal Aspire AppHost restored from nuget.org |
 | `packages/` | Optional staging folder for Trusted Publishing / release assets (gitignored binaries) |
 
-Public fork: [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)
+Public brand (org): [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit) · Maintainer SoT: this repo (`msmourao/polystack-devkit`). Both remotes stay public; sync brand with `scripts/publish-fork.ps1`.
 
 ## Report issues
 
-**[File a bug or feature request](https://github.com/msmourao/polystack-devkit/issues)** on this public DevKit repo (Issues enabled here).
+**Prefer brand inbox:** [getpolystack/devkit/issues](https://github.com/getpolystack/devkit/issues) (org `getpolystack` — enable Issues in repo settings if disabled).
 
-- Use this inbox for WebKit / DevKit samples, docs site, and **NuGet package** consumption problems.
-- Platform Multicloud, Settings sidecar, and CD sources stay **private** (`polystack-framework`); they are not published as source in this repo — consume via NuGet when published.
-- Brand mirror: [getpolystack/devkit](https://github.com/getpolystack/devkit) — Issues may be off until that account is an **Organization** and Issues are enabled (see framework `docs/DEVOPS_GITHUB.md`).
+**SoT mirror (Issues on):** [msmourao/polystack-devkit/issues](https://github.com/msmourao/polystack-devkit/issues)
+
+- Use these for WebKit / DevKit samples, docs site, and **NuGet package** consumption problems.
+- Platform Multicloud, Settings sidecar, and CD sources stay **private** (`polystack-framework`); consume via NuGet when published.
+- Org admin login after user→org conversion: `getpolystack-user` (needed to toggle Issues / repo admin features). Operator `msmourao` has write on brand `devkit`.
 
 ## NuGet
 
