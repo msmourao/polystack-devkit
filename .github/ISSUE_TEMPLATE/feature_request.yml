@@ -1,0 +1,22 @@
+name: Feature request
+description: Idea for the public DevKit samples, docs, or package surface
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requests here should target the **public** DevKit consumer (samples, docs, NuGet IDs).
+        Platform-only features belong in the private Multicloud kit — do not expect them to land in this repo’s source tree.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true

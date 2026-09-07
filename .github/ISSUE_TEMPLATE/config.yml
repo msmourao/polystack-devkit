@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: PolyStack presentation site / platform (private)
+    url: https://getpolystack.com
+    about: getpolystack.com ops and Multicloud platform are not tracked in this public repo. Use NuGet + this DevKit inbox for public WebKit/DevKit issues only.

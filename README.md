@@ -17,6 +17,14 @@ Use this repository to learn the DevKit surface, export `*.polystack-scheme.json
 
 Public fork: [github.com/getpolystack/devkit](https://github.com/getpolystack/devkit)
 
+## Report issues
+
+**[File a bug or feature request](https://github.com/msmourao/polystack-devkit/issues)** on this public DevKit repo (Issues enabled here).
+
+- Use this inbox for WebKit / DevKit samples, docs site, and **NuGet package** consumption problems.
+- Platform Multicloud, Settings sidecar, and CD sources stay **private** (`polystack-framework`); they are not published as source in this repo — consume via NuGet when published.
+- Brand mirror: [getpolystack/devkit](https://github.com/getpolystack/devkit) — Issues may be off until that account is an **Organization** and Issues are enabled (see framework `docs/DEVOPS_GITHUB.md`).
+
 ## NuGet
 
 Current train: **`0.1.0-preview.8`** (obfuscated binaries on nuget.org)

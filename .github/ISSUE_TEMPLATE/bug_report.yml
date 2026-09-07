@@ -1,0 +1,39 @@
+name: Bug report
+description: Something broken in the public DevKit, samples, docs, or NuGet packages
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Public inbox for **DevKit / WebKit consumer** only.
+        Framework Multicloud / Settings / CD source stays private — consume libs via **NuGet**.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Commands, package versions, OS
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: packages
+    attributes:
+      label: Package / train version
+      placeholder: e.g. 0.1.0-preview.8
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
