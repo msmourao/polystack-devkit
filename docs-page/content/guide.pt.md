@@ -207,7 +207,7 @@ Fachada AppHost Demo            → kit Aspire Multicloud
 
 ## 9b. Receitas Canary (Multicloud monorepo)
 
-Padrões declare-first do harness ouro (monorepo privado `samples/canary`):
+Padrões declare-first do harness ouro (monorepo privado `solutions/canary`):
 
 | Receita | Declarar |
 |---------|----------|

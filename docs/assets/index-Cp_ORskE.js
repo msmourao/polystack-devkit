@@ -243,7 +243,7 @@ Demo AppHost facade            → Multicloud Aspire kit\r
 \r
 ## 9b. Canary recipes (Multicloud monorepo)\r
 \r
-Declare-first patterns used by the gold harness (private monorepo \`samples/canary\`):\r
+Declare-first patterns used by the gold harness (private monorepo \`solutions/canary\`):\r
 \r
 | Recipe | Declare |\r
 |--------|---------|\r
@@ -493,7 +493,7 @@ Fachada AppHost Demo            → kit Aspire Multicloud\r
 \r
 ## 9b. Receitas Canary (Multicloud monorepo)\r
 \r
-Padrões declare-first do harness ouro (monorepo privado \`samples/canary\`):\r
+Padrões declare-first do harness ouro (monorepo privado \`solutions/canary\`):\r
 \r
 | Receita | Declarar |\r
 |---------|----------|\r
