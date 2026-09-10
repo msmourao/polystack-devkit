@@ -18,7 +18,7 @@ Mirrors the monorepo DevelopmentGuide recipe (declare-first). DevKit stays on De
 | AppHost mode | `PolyStackAppHostMode=DevKit` | `PolyStackAppHostMode=Multicloud` |
 | Persistence / broker | SQLite + InMemory (+ Auth.None typical) | SqlServer/Postgre + DynamicSelection + Aws/Azure |
 | On-disk artifacts | `.polystack/` scheme + topology + draft (metadata; Demo UI does **not** export) | `polystack-settings.json` (+ topology) |
-| Sample | DevKit blank (`samples/blank` on nuget.org / this repo) | Canary (gold Multicloud harness in the monorepo) |
+| Sample | DevKit blank (`samples/blank` on nuget.org / this repo) | Canary gold harness in the **private** monorepo at `solutions/canary` (domain `e2etests` — **not** a DevKit sample path) |
 
 ```powershell
 # DevKit blank sample (this repo / nuget.org)
@@ -27,6 +27,29 @@ dotnet restore
 dotnet run --project PolyStackBlankSolutionSample.AppHost
 # Demo wizard / topology: http://localhost:18889/
 ```
+
+### Domains (platform naming — conceptual)
+
+When you graduate to Multicloud, solutions are partitioned by `polystack:domain` / Settings `solutionDomain`:
+
+| Domain | Role (platform) |
+|--------|-----------------|
+| `default` | Presentation / marketing site |
+| `e2etests` | Canary validation harness |
+| `console` | Admin Console product tag (CD still targets Canary) |
+
+Public DevKit blank stays local-first; it does **not** provision those domains.
+
+### Mode A vs Mode B (when reading Multicloud claims)
+
+| Mode | Meaning |
+|------|---------|
+| **A** | Local / CI budgets (`E2ELocal`) — default path |
+| **B** | Opt-in live cloud (`E2ECloud`). Lab evidence may exist and then be **wiped** — never invent permanent cloud URLs from DevKit docs |
+
+### Error observation (local / AI)
+
+Prefer a **Headless** ExceptionTracker facade for local and AI loops (no GitHub Issues). DevOps Issues wiring belongs to the private platform with explicit enablement — not the blank sample.
 
 Required packages (already referenced by the blank sample) — train **0.1.0-preview.8+**:
 
@@ -193,7 +216,7 @@ Scheme documents may include `format: "polystack-scheme"`, a schema version, opt
 | Sample | Purpose |
 |--------|---------|
 | DevKit blank (`samples/blank`) | Consumer AppHost + Demo :18889 without monorepo ProjectRefs (nuget.org packages) |
-| Canary (monorepo) | Gold Multicloud harness: dual DB, queues, hub, FE, object storage, Peer cross-module |
+| Canary (monorepo `solutions/canary`) | Gold Multicloud harness: dual DB, queues, hub, FE, object storage, Peer cross-module; domain `e2etests` |
 
 When you graduate beyond DevKit:
 
@@ -207,7 +230,7 @@ Demo AppHost facade            → Multicloud Aspire kit
 
 ## 9b. Canary recipes (Multicloud monorepo)
 
-Declare-first patterns used by the gold harness (private monorepo `solutions/canary`):
+Declare-first patterns used by the gold harness (private monorepo **`solutions/canary`**, domain `e2etests` — not under `samples/`):
 
 | Recipe | Declare |
 |--------|---------|

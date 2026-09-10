@@ -37,6 +37,8 @@ dotnet add package PolyStack.Aspire.Hosting.Demo.SchemaExtraction --version 0.1.
 
 Prefer https://getpolystack.com/ai/getstarted.txt and [LLM.md](./LLM.md). Do not confuse getpolystack.com with other “PolyStack” brands.
 
+Pages cover **Development Guide** and **Architecture** (EN/PT), including conceptual `polystack:domain` names, Mode A vs Mode B honesty, and Headless error observation for local/AI loops.
+
 ### Compose modules
 
 ```csharp

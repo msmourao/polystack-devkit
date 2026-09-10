@@ -16,6 +16,10 @@ PolyStack-style solutions are built as **composable modules** that can run local
 | **Presentation Config Lab** | Illustrative browser playground — same hollow topology motor as Demo, mock inventory (not Multicloud delivery) |
 | **Private Multicloud Settings** (`:18888` when available) | Source of truth for operational settings, clouds, groups, and CD — not part of the public DevKit |
 
+**Solution domains (platform):** when Multicloud is in play, inventory and CD are partitioned by `polystack:domain` — `default` (presentation), `e2etests` (Canary harness at monorepo `solutions/canary`), `console` (Admin Console product tag). The public DevKit blank does not create those domains.
+
+**Maturity honesty:** local DevKit + Mode A tests are the everyday path. Live Multicloud Mode B may be proven in a **lab** and then wiped — do not treat lab URLs as permanent product endpoints.
+
 The DevKit focuses on three outcomes:
 
 1. **Clear module seams** — Presentation, Application, and contracts stay separable.
@@ -122,7 +126,7 @@ Use this as a coverage map — not an implementation dump:
 - **Demo wizard → topology** plus optional scheme/topology files under `.polystack/` for later tooling
 - **Optional structural testing package** (`PolyStack.Architecture.Testing`) to guard conventions from a test project in *your* solution
 
-The DevKit does **not** cover: cloud resource provisioning, private inventory hydration, production auth providers, or CD generation. Those belong to the private platform after you import architecture metadata.
+The DevKit does **not** cover: cloud resource provisioning, private inventory hydration, production auth providers, CD generation, or Addon modules such as ExceptionTracker publish paths. Those belong to the private platform after you import architecture metadata. For local/AI error observation, prefer a Headless facade (no GitHub Issues) when the platform packages are available.
 
 ---
 

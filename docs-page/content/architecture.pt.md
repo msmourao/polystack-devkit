@@ -16,6 +16,10 @@ Soluções no estilo PolyStack são feitas de **módulos componíveis** que roda
 | **Config Lab (apresentação)** | Playground ilustrativo no browser — mesmo motor hollow de topologia do Demo, inventário mock (não é entrega Multicloud) |
 | **Settings Multicloud privado** (`:18888` quando disponível) | Fonte da verdade operacional (settings, nuvens, grupos, CD) — não faz parte do DevKit público |
 
+**Domínios de solution (plataforma):** no Multicloud, inventário e CD particionam por `polystack:domain` — `default` (apresentação), `e2etests` (harness Canary em `solutions/canary` no monorepo), `console` (tag do Admin Console). O blank público do DevKit **não** cria esses domínios.
+
+**Honestidade de maturidade:** DevKit local + Mode A é o caminho do dia a dia. Mode B Multicloud vivo pode ser comprovado em **lab** e depois apagado — não trate URLs de lab como endpoints permanentes do produto.
+
 O DevKit mira três resultados:
 
 1. **Costuras claras de módulo** — Presentation, Application e contracts permanecem separáveis.
@@ -122,7 +126,7 @@ Use isto como mapa de cobertura — não como dump de implementação:
 - **Wizard Demo → topologia** e, opcionalmente, arquivos de scheme/topology em `.polystack/` para tooling futuro
 - **Pacote opcional de testes estruturais** (`PolyStack.Architecture.Testing`) para guardar convenções a partir de um projeto de testes *na sua* solution
 
-O DevKit **não** cobre: provisionamento de recursos em nuvem, hidratação privada de inventário, providers de auth de produção ou geração de CD. Isso pertence à plataforma privada depois da importação dos metadados de arquitetura.
+O DevKit **não** cobre: provisionamento de recursos em nuvem, hidratação privada de inventário, providers de auth de produção, geração de CD, nem caminhos de publish de Addons (ex. ExceptionTracker). Isso pertence à plataforma privada depois da importação dos metadados de arquitetura. Para observação de erros local/IA, prefira fachada Headless (sem GitHub Issues) quando os pacotes da plataforma estiverem disponíveis.
 
 ---
 
