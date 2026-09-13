@@ -18,7 +18,7 @@ PolyStack-style solutions are built as **composable modules** that can run local
 
 **Solution domains (platform):** when Multicloud is in play, inventory and CD are partitioned by `polystack:domain` — `default` (presentation), `e2etests` (Canary harness at monorepo `solutions/canary`), `console` (Admin Console product tag). The public DevKit blank does not create those domains.
 
-**Maturity honesty:** local DevKit + Mode A tests are the everyday path. Live Multicloud Mode B may be proven in a **lab** and then wiped — do not treat lab URLs as permanent product endpoints.
+**Maturity honesty:** local DevKit + Mode A tests are the everyday path. Live Multicloud Mode B on AWS and Azure may be proven in a **lab** (cross-cloud hops, dual-channel, ExceptionTracker UniqueHash + Issue, WebSockets on Azure Container Apps) and then wiped — do not treat lab URLs as permanent product endpoints.
 
 The DevKit focuses on three outcomes:
 

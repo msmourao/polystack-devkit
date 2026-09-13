@@ -45,7 +45,7 @@ Public DevKit blank stays local-first; it does **not** provision those domains.
 | Mode | Meaning |
 |------|---------|
 | **A** | Local / CI budgets (`E2ELocal`) — default path |
-| **B** | Opt-in live cloud (`E2ECloud`). Lab evidence may exist and then be **wiped** — never invent permanent cloud URLs from DevKit docs |
+| **B** | Opt-in live cloud (`E2ECloud`). Lab evidence on AWS and Azure may exist and then be **wiped** — never invent permanent cloud URLs from DevKit docs |
 
 ### Error observation (local / AI)
 

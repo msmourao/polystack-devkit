@@ -45,7 +45,7 @@ O blank público do DevKit permanece local-first; **não** provisiona esses dom�
 | Mode | Significado |
 |------|-------------|
 | **A** | Local / budgets de CI (`E2ELocal`) — caminho default |
-| **B** | Cloud vivo opt-in (`E2ECloud`). Evidência de lab pode existir e depois ser **apagada** — nunca invente URLs permanentes a partir só da doc DevKit |
+| **B** | Cloud vivo opt-in (`E2ECloud`). Evidência de lab em AWS e Azure pode existir e depois ser **apagada** — nunca invente URLs permanentes a partir só da doc DevKit |
 
 ### Observação de erros (local / IA)
 
